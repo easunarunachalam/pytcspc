@@ -25,4 +25,4 @@ Please see [`INSTALLATION.md`](https://github.com/easunarunachalam/pytcspc/blob/
 - `Gibbssampling`: fit a polyexp model using least-squares regression and a biexponential model using Gibbs sampling
 
 ## Contributing
-Please see `CONTRIBUTING.md`.
+Please see [`CONTRIBUTING.md`](https://github.com/easunarunachalam/pytcspc/blob/master/CONTRIBUTING.md).
