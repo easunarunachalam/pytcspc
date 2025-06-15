@@ -4,6 +4,7 @@ __all__ = [
 
 import numpy as np
 import os
+from pathlib import Path
 import sys
 from tqdm.notebook import tqdm
 
@@ -147,6 +148,7 @@ class SPC(object):
 
             self.pixel_linearindex = self.linear_index(self.pixel, self.line)
             self.frame_idxs = np.arange(np.max(self.frame) + 1)
+            self.frame_times = np.array(frame_start_time)[:(len(self.frame_bins)-1)]
 
             self.all_photons = xr.Dataset(
                 {
@@ -164,6 +166,7 @@ class SPC(object):
                     "frame bins": self.frame_bins,
                     "pixel bins": self.pixel_bins,
                     "line bins": self.line_bins,
+                    "frame time": self.frame_times
                 }
             )
 
@@ -173,7 +176,7 @@ class SPC(object):
                     "lifetime sum": (["frame time", "x", "y"], self.video(mode="lifetime sum"))
                 },
                 coords={
-                    "frame time": np.array(frame_start_time)[:(len(self.frame_bins)-1)]
+                    "frame time": self.frame_times
                 },
                 attrs={
                     # "acqtime": str(self.acqtime),
