@@ -3,7 +3,7 @@
 This python library can be used for analyzing time-domain fluorescence lifetime imaging microscopy (FLIM) data and fluorescence correlation spectroscopy (FCS) data collected with TCSPC hardware.
 
 ## Installing
-Please see `INSTALLATION.md`.
+Please see [`INSTALLATION.md`](https://github.com/easunarunachalam/pytcspc/blob/master/INSTALLATION.md).
 
 ## Functions
 
@@ -25,4 +25,4 @@ Please see `INSTALLATION.md`.
 - `Gibbssampling`: fit a polyexp model using least-squares regression and a biexponential model using Gibbs sampling
 
 ## Contributing
-Please see `CONTRIBUTING.md`.
+Please see [`CONTRIBUTING.md`](https://github.com/easunarunachalam/pytcspc/blob/master/CONTRIBUTING.md).

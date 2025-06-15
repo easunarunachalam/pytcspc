@@ -1,6 +1,6 @@
 # Contributing
 
-Contributions are welcome. If you would like to use this package to analyze data collected on non-Bcker&Hickl TCSPC systems, it may be possible to do so. Please take a look at the various packages written by Christoph Gohlke (creator of `sdtfile`); it may be straightforward to use those packages to read data and then do analysis with functions in `pytcspc`.
+Contributions are welcome. If you would like to use this package to analyze data collected on non-Becker&Hickl TCSPC systems, it may be possible to do so. Please take a look at the various packages written by Christoph Gohlke (creator of `sdtfile`); it may be straightforward to use those packages to read data and then do analysis with functions in `pytcspc`.
 
 ## building and uploading
 

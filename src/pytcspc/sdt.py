@@ -406,7 +406,7 @@ def convert_sdts(
     conversion_list,
     channel_names,
     correction_mask=None,
-    type="zarr",
+    save_type="zarr",
     archive_path="processed_data.zarr",
     sync_path="zarr_writer.sync",
     overwrite=False,
@@ -423,7 +423,7 @@ def convert_sdts(
     for sdt_list in conversion_list:
         assert len(sdt_list) == len(channel_names), ValueError("len(channel_names) must equal number of acqisitions per image.")
 
-    synchronizer = zarr.ProcessSynchronizer(sync_path)
+    # synchronizer = zarr.sync.ProcessSynchronizer(sync_path)
 
     def convert_single_group(i_group):
 
@@ -443,10 +443,10 @@ def convert_sdts(
             intensity=intensity_img
         ))
 
-        if type == "zarr":
-            ds.to_zarr(archive_path, mode="a", group=group_name, synchronizer=synchronizer, consolidated=False)
-        elif type == "nc":
-            ds.to_zarr(archive_path, mode="a", group=group_name, synchronizer=synchronizer, consolidated=False)
+        if save_type == "zarr":
+            ds.to_zarr(archive_path, mode="a", group=group_name, consolidated=False)
+        elif save_type == "nc":
+            ds.to_zarr(archive_path, mode="a", group=group_name, consolidated=False)
         else:
             raise ValueError("Unrecognized type for saving.")
 
