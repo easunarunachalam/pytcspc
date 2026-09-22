@@ -24,5 +24,9 @@ Please see [`INSTALLATION.md`](https://github.com/easunarunachalam/pytcspc/blob/
 - `fit_from_image`: fit decay curve for NAD(P)H in yeast
 - `Gibbssampling`: fit a polyexp model using least-squares regression and a biexponential model using Gibbs sampling
 
+## Citation
+
+Please cite: E Arunachalam, FC Keber, RC Law, J Crapse, CK Kumar, Y Shen, JO Park, M Wuhr, DJ Needleman, *Robustness of mitochondrial biogenesis and respiration explain aerobic glycolysis*, bioRxiv preprint: 2024 Jul 5:2024.07.04.601975. doi: 10.1101/2024.07.04.601975.
+
 ## Contributing
 Please see [`CONTRIBUTING.md`](https://github.com/easunarunachalam/pytcspc/blob/master/CONTRIBUTING.md).
