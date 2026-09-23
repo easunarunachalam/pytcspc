@@ -207,6 +207,25 @@ class SPC(object):
                     im_path,
                     mode="w",
                 )
+        
+        elif self.filepath.suffix == ".nc":
+
+            all_photons = xr.load_dataset(self.filepath)
+
+            self.micro = all_photons["microtime"].values
+            self.macro = all_photons["time"].values
+            self.frame = all_photons["frame"].values
+            self.line  = all_photons["x"].values
+            self.pixel = all_photons["y"].values
+
+            self.filepath = all_photons.attrs["filepath"]
+            self.frame_bins = all_photons.attrs["frame bins"]
+            self.pixel_bins = all_photons.attrs["pixel bins"]
+            self.line_bins = all_photons.attrs["line bins"]
+            self.frame_times = all_photons.attrs["frame time"]
+
+            del all_photons 
+
         else:
             warnings.warn("Unrecognized file extension.")
             sys.exit()
@@ -230,13 +249,7 @@ class SPC(object):
             return "w"
 
     def event_coord_list_framewise(self):
-        return np.vstack(
-            (
-                self.all_photons["frame"].data,
-                self.all_photons["x"].data,
-                self.all_photons["y"].data,
-            )
-        ).T
+        return np.vstack( (self.frame, self.line, self.pixel) ).T
 
     def linear_index(self, pixelvals, linevals):
         return pixelvals + self.pixels_per_line*linevals
@@ -254,19 +267,27 @@ class SPC(object):
             return np.histogramdd(
                 self.event_coord_list_framewise(),
                 bins=(self.frame_bins, self.line_bins, self.pixel_bins),
-                weights=self.all_photons["microtime"].data
+                weights=self.micro
             )[0]
         else:
             raise ValueError("Invalid mode")
 
-    def decay_curve(self, roi_pixel_coords, roi_line_coords):
+    def decay_curve(self, roi_pixel_coords=None, roi_line_coords=None, microtime_nbins=4096, microtime_bw=16):
 
-        roi_pixel_linearindex = self.linear_index(roi_pixel_coords, roi_line_coords)
-        is_event_in_roi = np.in1d(self.pixel_linearindex, roi_pixel_linearindex)
+        if (roi_pixel_coords is not None) and (roi_line_coords is not None):
+            roi_pixel_linearindex = self.linear_index(roi_pixel_coords, roi_line_coords)
+            is_event_in_roi = np.in1d(self.pixel_linearindex, roi_pixel_linearindex)
+        else:
+            is_event_in_roi = np.full_like(self.micro, True).astype(bool)
 
         microtimes = self.micro[is_event_in_roi]
 
-        return np.histogram(microtimes, bins=np.arange(0,4097,16)-0.5)
+
+        microtime_bin_edges = np.arange(0,microtime_nbins+(1*microtime_bw),microtime_bw)-(0.5*microtime_bw)
+        counts, bes = np.histogram(microtimes, bins=microtime_bin_edges)
+        microtime_bin_centers = microtime_bin_edges[1:]-0.5
+
+        return counts, microtime_bin_centers
 
     def roi_fli_trajectory(self, roi_pixel_coords, roi_line_coords, dt=0.0155):
         self.dt = dt
